@@ -6,11 +6,11 @@ import Image from "next/image"
 import { ArrowLeft } from "lucide-react"
 import { useEffect, useState } from "react"
 
-import { Button } from "../../../components/ui/button"
-import { Card, CardContent } from "../../../components/ui/card"
-import { Navigation } from "../../../components/navigation"
-import { Footer } from "../../../components/footer"
-import { BookingForm } from "../../../components/booking-form"
+import { Button } from "@/app/components/ui/button"
+import { Card, CardContent } from "@/app/components/ui/card"
+import { Navigation } from "@/app/components/navigation"
+import { Footer } from "@/app/components/footer"
+import { BookingForm } from "@/app/components/booking-form"
 
 // Simulating fetching service data
 function getServiceData(category: string, id: string) {
