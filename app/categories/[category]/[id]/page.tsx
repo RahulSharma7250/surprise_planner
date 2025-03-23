@@ -34,13 +34,15 @@ function getServiceData(category: string, id: string) {
   }
 }
 
-// Fix the type definition to match Next.js 13+ expectations
-export default function ServiceDetailPage({
-  params,
-}: {
-  params: { category: string; id: string }
-}) {
-  const service = getServiceData(params.category, params.id)
+// Using a different pattern for the page component
+type PageParams = {
+  category: string
+  id: string
+}
+
+export default async function ServiceDetailPage({ params }: { params: PageParams }) {
+  // Simulate async data fetching
+  const service = await Promise.resolve(getServiceData(params.category, params.id))
 
   return (
     <div className="flex flex-col min-h-screen">
