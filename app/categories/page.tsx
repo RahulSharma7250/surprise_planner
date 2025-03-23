@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
+import Link from "next/link";              
 import { Navigation } from "../components/navigation";
 import { Footer } from "../components/footer";
 import { ServiceCard } from "../components/service-card";
@@ -15,6 +15,7 @@ const services = [
     image: "/placeholder.svg?height=400&width=600&text=Candlelight+Dinner+1",
     price: "₹8,000",
   },
+
   {
     id: "2",
     title: "Private Candlelight Dinner",
