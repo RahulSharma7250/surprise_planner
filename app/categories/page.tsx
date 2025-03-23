@@ -1,68 +1,80 @@
-"use client";
+import Link from "next/link"
 
-import { useParams } from "next/navigation";
-import Link from "next/link";              
-import { Navigation } from "../components/navigation";
-import { Footer } from "../components/footer";
-import { ServiceCard } from "../components/service-card";
+import { Navigation } from "../components/navigation"
+import { Footer } from "../components/footer"
+import { ServiceCard } from "../components/service-card"
 
-// Mock data for services within a category
-const services = [
+// Mock data for categories
+const categories = [
   {
-    id: "1",
-    title: "Romantic Candlelight Dinner",
-    description: "A magical evening with a premium candlelight dinner setup.",
-    image: "/placeholder.svg?height=400&width=600&text=Candlelight+Dinner+1",
+    id: "balloon-bouquet",
+    title: "Balloon Bouquet",
+    description: "Colorful balloon arrangements for all occasions.",
+    image: "/ball.jpeg?height=400&width=600&text=Balloon+Bouquet",
+    price: "₹1,500",
+  },
+  {
+    id: "candlelight-dinners",
+    title: "Candlelight Dinners",
+    description: "Romantic candlelight dinners at exclusive venues or in the comfort of your home.",
+    image: "/candel5.jpeg?height=400&width=600&text=Candlelight+Dinners",
     price: "₹8,000",
   },
-
   {
-    id: "2",
-    title: "Private Candlelight Dinner",
-    description: "An intimate dinner setup for two in a private venue.",
-    image: "/placeholder.svg?height=400&width=600&text=Candlelight+Dinner+2",
-    price: "₹10,000",
+    id: "anniversary-specials",
+    title: "Anniversary Specials",
+    description: "Celebrate your special day with customized anniversary surprise packages.",
+    image: "/anni.jpeg?height=400&width=600&text=Anniversary+Specials",
+    price: "₹12,000",
   },
   {
-    id: "3",
-    title: "Home Candlelight Dinner",
-    description: "Bring the romance home with a personalized dinner setup.",
-    image: "/placeholder.svg?height=400&width=600&text=Candlelight+Dinner+3",
-    price: "₹6,000",
+    id: "home-surprises",
+    title: "Home Surprises",
+    description: "Bring the celebration home with our custom home surprise setups.",
+    image: "/dec.jpeg?height=400&width=600&text=Home+Surprises",
+    price: "₹5,000",
   },
-];
+  {
+    id: "proposal-setup",
+    title: "Proposal Setup",
+    description: "Create the perfect moment to pop the question with our custom proposal setups.",
+    image: "/sur2.jpeg?height=400&width=600&text=Proposal+Setup",
+    price: "₹15,000",
+  },
+  {
+    id: "room-decorations",
+    title: "Room Decorations",
+    description: "Transform any space with our beautiful room decoration services.",
+    image: "/dec.jpeg?height=400&width=600&text=Room+Decorations",
+    price: "₹3,500",
+  },
+  {
+    id: "honeymoon-trip",
+    title: "Honeymoon Trip",
+    description: "Plan the perfect honeymoon with our customized travel packages.",
+    image: "/honey.jpeg?height=400&width=600&text=Honeymoon+Trip",
+    price: "₹50,000",
+  },
+  {
+    id: "wedding-planner",
+    title: "Wedding Planner",
+    description: "Full-service wedding planning to make your special day perfect.",
+    image: "/wedding.jpeg?height=400&width=600&text=Wedding+Planner",
+    price: "₹1,00,000",
+  },
+]
 
-// Define the expected type for the params object
-interface CategoryPageParams {
-  category: string;
-}
-
-export default function CategoryPage() {
-  // Use useParams to get the category from the URL
-  const params = useParams<CategoryPageParams>();
-
-  // Handle the case where params might be undefined
-  if (!params?.category) {
-    return <div>Loading...</div>;
-  }
-
-  // Format the category name for display
-  const formattedCategory = params.category
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-
+export default function CategoriesPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navigation />
       <main className="flex-1">
         <section className="bg-muted py-12">
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl font-bold text-center mb-4">
-              {formattedCategory}
-            </h1>
+            <h1 className="text-4xl font-bold text-center mb-4">Our Services</h1>
             <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
-              Explore our curated selection of services for {formattedCategory}.
+              Discover our range of surprise planning services designed to create unforgettable moments for all your
+              special occasions.
             </p>
           </div>
         </section>
@@ -70,14 +82,14 @@ export default function CategoryPage() {
         <section className="py-12">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((service) => (
+              {categories.map((category) => (
                 <ServiceCard
-                  key={service.id}
-                  title={service.title}
-                  description={service.description}
-                  imageSrc={service.image}
-                  price={service.price}
-                  slug={`/categories/${params.category}/${service.id}`}
+                  key={category.id}
+                  title={category.title}
+                  description={category.description}
+                  imageSrc={category.image}
+                  price={category.price}
+                  slug={`/categories/${category.id}`}
                 />
               ))}
             </div>
@@ -102,5 +114,6 @@ export default function CategoryPage() {
       </main>
       <Footer />
     </div>
-  );
+  )
 }
+
