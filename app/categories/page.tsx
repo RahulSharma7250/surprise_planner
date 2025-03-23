@@ -31,14 +31,25 @@ const services = [
   },
 ];
 
+// Define the expected type for the params object
+interface CategoryPageParams {
+  category: string;
+}
+
 export default function CategoryPage() {
   // Use useParams to get the category from the URL
-  const params = useParams();
+  const params = useParams<CategoryPageParams>();
 
   // Handle the case where params might be undefined
   if (!params?.category) {
     return <div>Loading...</div>;
   }
+
+  // Format the category name for display
+  const formattedCategory = params.category
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -47,17 +58,10 @@ export default function CategoryPage() {
         <section className="bg-muted py-12">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center mb-4">
-              {params.category
-                .split("-")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}
+              {formattedCategory}
             </h1>
             <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
-              Explore our curated selection of services for{" "}
-              {params.category
-                .split("-")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}.
+              Explore our curated selection of services for {formattedCategory}.
             </p>
           </div>
         </section>
