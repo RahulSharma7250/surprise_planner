@@ -23,12 +23,6 @@ interface ServiceData {
   images: string[];
 }
 
-// Define the type for params explicitly
-interface Params {
-  category: string;
-  id: string;
-}
-
 // Simulate fetching service data
 function getServiceData(category: string, id: string): ServiceData {
   return {
@@ -54,12 +48,10 @@ function getServiceData(category: string, id: string): ServiceData {
   };
 }
 
-// Define the correct PageProps type
-interface PageProps {
-  params: Params;
-}
+export default function ServiceDetailPage() {
+  // Use useParams to get dynamic route parameters
+  const params = useParams<{ category: string; id: string }>();
 
-export default function ServiceDetailPage({ params }: PageProps) {
   const [service, setService] = useState<ServiceData | null>(null);
 
   useEffect(() => {
