@@ -31,14 +31,9 @@ const services = [
   },
 ];
 
-// Define the type for params explicitly
-interface Params {
-  category: string;
-}
-
 export default function CategoryPage() {
   // Use useParams to get the category from the URL
-  const params = useParams<Params>();
+  const params = useParams<{ category: string }>();
 
   return (
     <div className="flex flex-col min-h-screen">
