@@ -8,7 +8,9 @@ import { Navigation } from "@/app/components/navigation";
 import { Footer } from "@/app/components/footer";
 import { BookingForm } from "@/app/components/booking-form";
 
-// Define a type for the service data
+// ✅ Next.js `PageProps` ka sahi type import kar
+import { PageProps } from "next";
+
 interface ServiceData {
   id: string;
   title: string;
@@ -19,18 +21,10 @@ interface ServiceData {
   images: string[];
 }
 
-// Define the type for params
-interface PageProps {
-  params: {
-    category: string;
-    id: string;
-  };
-}
-
-// Simulating fetching service data
-function getServiceData(category: string, id: string): ServiceData {
-  return {
-    id,
+// ✅ Next.js ke params ka correct type define kar
+export default function ServiceDetailPage({ params }: PageProps<{ category: string; id: string }>) {
+  const service: ServiceData = {
+    id: params.id,
     title: "Romantic Candlelight Dinner",
     category: "Candlelight Dinners",
     price: "₹8,000",
@@ -50,11 +44,6 @@ function getServiceData(category: string, id: string): ServiceData {
       "/placeholder.svg?height=600&width=800&text=Candlelight+Dinner+3",
     ],
   };
-}
-
-// ✅ Server Component Use Karna Hai
-export default function ServiceDetailPage({ params }: PageProps) {
-  const service = getServiceData(params.category, params.id);
 
   return (
     <div className="flex flex-col min-h-screen">
