@@ -1,12 +1,19 @@
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { Button } from "../../components/ui/button"
-import { Navigation } from "../../components/navigation"
-import { Footer } from "../../components/footer"
+import { Button } from "../../components/ui/button";
+import { Navigation } from "../../components/navigation";
+import { Footer } from "../../components/footer";
 
-// Mock data for services by category
+// Define type for `params`
+interface CategoryPageProps {
+  params: {
+    category: string;
+  };
+}
+
+// Function to fetch services based on category
 const getServicesByCategory = (category: string) => {
   const services = [
     {
@@ -14,7 +21,7 @@ const getServicesByCategory = (category: string) => {
       title: "Romantic Candlelight Dinner",
       description:
         "Experience a magical evening with our premium candlelight dinner setup. Perfect for anniversaries, birthdays, or just to show your love.",
-      image: "/candel.jpeg?height=400&width=600&text=Romantic+Dinner",
+      image: "/candel.jpeg",
       price: "₹8,000",
     },
     {
@@ -22,7 +29,7 @@ const getServicesByCategory = (category: string) => {
       title: "Beach Proposal Setup",
       description:
         "Create a magical proposal moment with our beach-themed setup including flowers, candles, and personalized decorations.",
-      image: "/beach1.jpeg?height=400&width=600&text=Beach+Proposal",
+      image: "/beach1.jpeg",
       price: "₹15,000",
     },
     {
@@ -30,7 +37,7 @@ const getServicesByCategory = (category: string) => {
       title: "Premium Anniversary Package",
       description:
         "Celebrate your special day with our all-inclusive anniversary package featuring decorations, dinner, and photography.",
-      image: "/anni2.jpeg?height=400&width=600&text=Anniversary+Package",
+      image: "/anni2.jpeg",
       price: "₹12,000",
     },
     {
@@ -38,25 +45,26 @@ const getServicesByCategory = (category: string) => {
       title: "Home Surprise Decoration",
       description:
         "Transform your home into a romantic paradise with our custom decoration services for any special occasion.",
-      image: "/dec.jpeg?height=400&width=600&text=Home+Decoration",
+      image: "/dec.jpeg",
       price: "₹5,000",
     },
-  ]
+  ];
 
-  return services
-}
+  return services;
+};
 
-// Function to format category name for display
+// Function to format category name
 const formatCategoryName = (category: string) => {
   return category
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")
-}
+    .join(" ");
+};
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
-  const services = getServicesByCategory(params.category)
-  const categoryName = formatCategoryName(params.category)
+// ✅ Fixed: Now params is correctly typed
+export default function CategoryPage({ params }: CategoryPageProps) {
+  const services = getServicesByCategory(params.category);
+  const categoryName = formatCategoryName(params.category);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -87,7 +95,8 @@ export default function CategoryPage({ params }: { params: { category: string } 
                     <Image
                       src={service.image || "/placeholder.svg"}
                       alt={service.title}
-                      fill
+                      width={600}
+                      height={400}
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -105,10 +114,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
                       className="w-full bg-red-600 hover:bg-red-700 text-white rounded-md shadow-sm hover:shadow-md transition-all duration-300 text-sm py-2"
                       asChild
                     >
-                      <Link
-                        href={`/categories/${params.category}/${service.id}`}
-                        className="flex items-center justify-center"
-                      >
+                      <Link href={`/categories/${params.category}/${service.id}`} className="flex items-center justify-center">
                         View Details
                         <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </Link>
@@ -145,6 +151,5 @@ export default function CategoryPage({ params }: { params: { category: string } 
       </main>
       <Footer />
     </div>
-  )
+  );
 }
-
