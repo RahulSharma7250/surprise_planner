@@ -54,10 +54,12 @@ function getServiceData(category: string, id: string): ServiceData {
   };
 }
 
-export default function ServiceDetailPage() {
-  // Use useParams to get dynamic route parameters
-  const params = useParams<Params>();
+// Define the correct PageProps type
+interface PageProps {
+  params: Params;
+}
 
+export default function ServiceDetailPage({ params }: PageProps) {
   const [service, setService] = useState<ServiceData | null>(null);
 
   useEffect(() => {
