@@ -33,7 +33,12 @@ const services = [
 
 export default function CategoryPage() {
   // Use useParams to get the category from the URL
-  const params = useParams<{ category: string }>();
+  const params = useParams();
+
+  // Handle the case where params might be undefined
+  if (!params?.category) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -43,20 +48,16 @@ export default function CategoryPage() {
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center mb-4">
               {params.category
-                ? params.category
-                    .split("-")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ")
-                : "Category"}
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
             </h1>
             <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
               Explore our curated selection of services for{" "}
               {params.category
-                ? params.category
-                    .split("-")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ")
-                : "this category"}.
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}.
             </p>
           </div>
         </section>
