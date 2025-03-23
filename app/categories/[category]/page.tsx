@@ -1,19 +1,36 @@
-"use client"
+"use client";
 
-import { useParams } from "next/navigation"
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { Button } from "@/app/components/ui/button"
-import { Card, CardContent } from "@/app/components/ui/card"
-import { Navigation } from "@/app/components/navigation"
-import { Footer } from "@/app/components/footer"
-import { BookingForm } from "@/app/components/booking-form"
+import { Button } from "@/app/components/ui/button";
+import { Card, CardContent } from "@/app/components/ui/card";
+import { Navigation } from "@/app/components/navigation";
+import { Footer } from "@/app/components/footer";
+import { BookingForm } from "@/app/components/booking-form";
+
+// Define a type for the service data
+interface ServiceData {
+  id: string;
+  title: string;
+  category: string;
+  price: string;
+  description: string;
+  features: string[];
+  images: string[];
+}
+
+// Define the type for params explicitly
+interface Params {
+  category?: string;
+  id?: string;
+}
 
 // Simulating fetching service data
-function getServiceData(category: string, id: string) {
+function getServiceData(category: string, id: string): ServiceData {
   return {
     id,
     title: "Romantic Candlelight Dinner",
@@ -34,21 +51,21 @@ function getServiceData(category: string, id: string) {
       "/placeholder.svg?height=600&width=800&text=Candlelight+Dinner+2",
       "/placeholder.svg?height=600&width=800&text=Candlelight+Dinner+3",
     ],
-  }
+  };
 }
 
 export default function ServiceDetailPage() {
-  const params = useParams() // Get params dynamically
-  const [service, setService] = useState<any | null>(null)
+  const params = useParams() as Params; // Explicitly cast params type
+  const [service, setService] = useState<ServiceData | null>(null);
 
   useEffect(() => {
     if (params?.category && params?.id) {
-      const fetchedService = getServiceData(params.category as string, params.id as string)
-      setService(fetchedService)
+      const fetchedService = getServiceData(params.category, params.id);
+      setService(fetchedService);
     }
-  }, [params])
+  }, [params]);
 
-  if (!service) return <p className="text-center py-10">Loading...</p>
+  if (!service) return <p className="text-center py-10">Loading...</p>;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -61,10 +78,12 @@ export default function ServiceDetailPage() {
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to{" "}
-            {String(params.category)
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ")}
+            {params.category
+              ? params.category
+                  .split("-")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")
+              : ""}
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -93,15 +112,19 @@ export default function ServiceDetailPage() {
 
               <h1 className="text-3xl font-bold mb-2">{service.title}</h1>
               <div className="flex items-center mb-6">
-                <span className="text-xl font-semibold text-primary mr-4">{service.price}</span>
+                <span className="text-xl font-semibold text-primary mr-4">
+                  {service.price}
+                </span>
                 <span className="text-muted-foreground">{service.category}</span>
               </div>
 
               <div className="prose max-w-none mb-8">
                 <h2 className="text-xl font-semibold mb-4">Description</h2>
-                <p className="text-muted-foreground mb-6">{service.description}</p>
+                <p className="text-muted-foreground mb-6">
+                  {service.description}
+                </p>
 
-                <h2 className="text-xl font-semibold mb-4">What's Included</h2>
+                <h2 className="text-xl font-semibold mb-4">What{"'"}s Included</h2>
                 <ul className="space-y-2">
                   {service.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
@@ -124,8 +147,8 @@ export default function ServiceDetailPage() {
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Need Help?</h2>
                   <p className="text-muted-foreground mb-4">
-                    Have questions about this service or need custom arrangements? Our team is here to help you create
-                    the perfect surprise.
+                    Have questions about this service or need custom arrangements? Our
+                    team is here to help you create the perfect surprise.
                   </p>
                   <Button className="w-full" asChild>
                     <Link href="/contact">Contact Us</Link>
@@ -138,5 +161,5 @@ export default function ServiceDetailPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
